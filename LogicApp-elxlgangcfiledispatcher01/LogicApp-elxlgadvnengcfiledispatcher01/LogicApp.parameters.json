@@ -1,0 +1,73 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "LogicAppName": {
+      "value": "elxlgangcfiledispatcher01"
+    },
+    "azuretables_1_sharedkey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvStorageLrsh02Key1"
+      }
+    },
+    "filesystem_1_username": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvfiledispatcherusername"
+      }
+    },
+    "filesystem_1_password": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvfiledispatcherpassword"
+      }
+    },
+    "azureblob_1_accessKey": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvStorageLrsh02Key1"
+      }
+    },
+    "servicebus_1_connectionString": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvServiceBusConnectionString01"
+      }
+    },
+    "servicebus_2_connectionString": {
+      "reference": {
+        "keyVault": {
+          "id": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvkvl01/providers/Microsoft.KeyVault/vaults/elxkvldvnest01"
+        },
+        "secretName": "elxkvvServiceBusConnectionString01"
+      }
+    },
+    "elxlgangcosbvalidation01_workflowId": {
+      "value": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvlga01/providers/Microsoft.Logic/workflows/elxlgangcosbvalidation01"
+    },
+    "filesystem_1_Connection_Name": {
+      "value": "filesystem-7"
+    },
+    "filesystem_1_Connection_DisplayName": {
+      "value": "elxlgcfiledispatcherconnection"
+    },
+    "filesystem_1_rootfolder": {
+      "value": "\\\\elx-a-fat-cva.elexbmrs.local\\NE80XSEC_CWK\\party_area\\DCP\\inbox"
+    },
+    "filesystem_1_gateway_id": {
+      "value": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvlga01/providers/Microsoft.Web/connectionGateways/elxodgdvneleg01"
+    }
+
+  }
+}

@@ -1,0 +1,1498 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "elxlgangcosbvalidation01_workflowId": {
+      "type": "string",
+      "defaultValue": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvlga01/providers/Microsoft.Logic/workflows/elxlgangcosbvalidation01"
+    },
+    "servicebus_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "servicebus"
+    },
+    "servicebus_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "elxlgcnonngcfiledispatcherservicebus"
+    },
+    "servicebus_1_connectionString": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure Service Bus Connection String"
+      }
+    },
+    "azureblob_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azureblob-2"
+    },
+    "azureblob_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "elxlgcelxstadvnelrsh02"
+    },
+    "azureblob_1_accountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the storage account the connector should use."
+      },
+      "defaultValue": "elxstadvnelrsh02"
+    },
+    "azureblob_1_accessKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Specify a valid primary/secondary storage account access key."
+      }
+    },
+    "azuretables_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "azuretables"
+    },
+    "azuretables_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "elxstadvnelrsh02"
+    },
+    "azuretables_1_storageaccount": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of your storage account"
+      },
+      "defaultValue": "elxstadvnelrsh02"
+    },
+    "azuretables_1_sharedkey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The shared storage key of your storage account"
+      }
+    },
+    "filesystem_1_Connection_Name": {
+      "type": "string",
+      "defaultValue": "filesystem-1"
+    },
+    "filesystem_1_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "elxlocalmachineconnection"
+    },
+    "filesystem_1_rootfolder": {
+      "type": "string",
+      "metadata": {
+        "description": "Root folder path (examples: \\\\MACHINE\\myShare or C:\\myShare)"
+      },
+      "defaultValue": "\\\\elx-a-fat-cva\\NE80XSEC_CWK\\party_area\\DCP\\inbox"
+    },
+    "filesystem_1_authType": {
+      "type": "string",
+      "metadata": {
+        "description": "Authentication type to connect to your gateway computer"
+      },
+      "defaultValue": "windows",
+      "allowedValues": [
+        "windows"
+      ]
+    },
+    "filesystem_1_username": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Username credential (e.g. DOMAIN\\Username)"
+      }
+    },
+    "filesystem_1_password": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password credential"
+      }
+    },
+    "filesystem_1_gateway_id": {
+      "type": "string",
+      "defaultValue": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvsbx10/providers/Microsoft.Web/connectionGateways/elxtestfdplocalmachine"
+    },
+    "FileSequence_Table": {
+      "type": "string",
+      "defaultValue": "/Tables/@{encodeURIComponent('elxsttincomingsequence')}/entities(PartitionKey='@{encodeURIComponent('filedispatcher')}',RowKey='@{encodeURIComponent(variables('FileType'))}')"
+    },
+    "FileStatus_Table": {
+      "type": "string",
+      "defaultValue": "/Tables/@{encodeURIComponent('elxsttnonngcincomingfilestatus')}/entities(PartitionKey='@{encodeURIComponent('filedispatcher')}',RowKey='@{encodeURIComponent(items('For_each')?['DisplayName'])}')"
+    },
+    "OutofSequence_Blob": {
+      "type": "string",
+      "defaultValue": "/elxstbdcpoutofsequencefile"
+    },
+    "filedispatcher_servicebus": {
+      "type": "string",
+      "defaultValue": "/@{encodeURIComponent(encodeURIComponent('elxasbtpfiledispatcher'))}/messages"
+    },
+    "filedispatchererror_servicebus": {
+      "type": "string",
+      "defaultValue": "/@{encodeURIComponent(encodeURIComponent('elxasbtpfiledispatcher_error'))}/messages"
+    },
+    "LogicAppLocation": {
+      "type": "string",
+      "minLength": 1,
+      "allowedValues": [
+        "[resourceGroup().location]",
+        "eastasia",
+        "southeastasia",
+        "centralus",
+        "eastus",
+        "eastus2",
+        "westus",
+        "northcentralus",
+        "southcentralus",
+        "northeurope",
+        "westeurope",
+        "japanwest",
+        "japaneast",
+        "brazilsouth",
+        "australiaeast",
+        "australiasoutheast",
+        "southindia",
+        "centralindia",
+        "westindia",
+        "canadacentral",
+        "canadaeast",
+        "uksouth",
+        "ukwest",
+        "westcentralus",
+        "westus2"
+      ],
+      "defaultValue": "northeurope"
+    },
+    "LogicAppName": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "elxlgangcfiledispatcher01"
+    },
+    "servicebus_2_Connection_Name": {
+      "type": "string",
+      "defaultValue": "servicebus-3"
+    },
+    "servicebus_2_Connection_DisplayName": {
+      "type": "string",
+      "defaultValue": "elxasbdvnemsg01"
+    },
+    "servicebus_2_connectionString": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Azure Service Bus Connection String"
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "properties": {
+        "state": "Enabled",
+        "definition": {
+          "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+          "actions": {
+            "For_each": {
+              "type": "Foreach",
+              "foreach": "@body('COMMS Server')",
+              "actions": {
+                "Delete_InvalidFile": {
+                  "runAfter": {
+                    "PublishInvalidFileDetails": [
+                      "Succeeded"
+                    ]
+                  },
+                  "trackedProperties": {
+                    "Log_Warning": "@concat(items('For_each')?['Path'],',Invalid file found,File Deleted from DCP inbound,',utcNow())",
+                    "WorkFlowName": "@workflow()['name']"
+                  },
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                      }
+                    },
+                    "method": "delete",
+                    "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Path']))}",
+                    "retryPolicy": {
+                      "count": 4,
+                      "interval": "PT20S",
+                      "type": "exponential"
+                    }
+                  }
+                },
+                "FileSequenceNumberCheck": {
+                  "type": "If",
+                  "expression": {
+                    "and": [
+                      {
+                        "lessOrEquals": [
+                          "@int(split(split(items('For_each')['DisplayName'],'_')[3],'.')[0])",
+                          "@body('Get_Entity')['SEQUENCE_NO']"
+                        ]
+                      }
+                    ]
+                  },
+                  "actions": {
+                    "CheckLessthanSequenceNumber": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "equals": [
+                              "@int(split(split(items('For_each')['DisplayName'],'_')[3],'.')[0])",
+                              "@body('Get_Entity')['SEQUENCE_NO']"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "FileSequenceTableUpdateEqualToSequence": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azuretables']['connectionId']"
+                              }
+                            },
+                            "method": "patch",
+                            "body": {
+                              "DATA_TYPE": "@split(items('For_each')['DisplayName'],'_')[1]",
+                              "MAX_OUT_FILES": "@variables('MaxOutFiles')",
+                              "MAX_SEQ_NO": "@body('Get_Entity')['MAX_SEQ_NO']",
+                              "OUT_FILES": "@body('Get_Entity')['OUT_FILES']",
+                              "SEQUENCE_NO": "@variables('FileSequenceNumber')"
+                            },
+                            "path": "[parameters('FileSequence_Table')]"
+                          },
+                          "runAfter": {}
+                        }
+                      },
+                      "runAfter": {
+                        "Increment_FileSequenceNumber": [
+                          "Succeeded"
+                        ]
+                      },
+                      "else": {
+                        "actions": {
+                          "FileSequenceTableUpdateLessThanEqualToSequence": {
+                            "type": "ApiConnection",
+                            "inputs": {
+                              "host": {
+                                "connection": {
+                                  "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                }
+                              },
+                              "method": "patch",
+                              "body": {
+                                "DATA_TYPE": "@split(items('For_each')['DisplayName'],'_')[1]",
+                                "MAX_OUT_FILES": "@variables('MaxOutFiles')",
+                                "MAX_SEQ_NO": "@body('Get_Entity')['MAX_SEQ_NO']",
+                                "OUT_FILES": "@body('Get_Entity')['OUT_FILES']",
+                                "SEQUENCE_NO": "@body('Get_Entity')['SEQUENCE_NO']"
+                              },
+                              "path": "[parameters('FileSequence_Table')]"
+                            },
+                            "runAfter": {},
+                            "trackedProperties": {
+                              "Log_Warning": "@concat(items('For_each')['DisplayName'],',Current Sequence Number is less than expected sequence , Processing files to landing without incrementing sequence number',',',utcNow())",
+                              "WorkFlowName": "@workflow()['name']"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "Create_blob": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['azureblob']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "body": "@body('Get_file_content')",
+                        "path": "/datasets/default/files",
+                        "queries": {
+                          "folderPath": "@{variables('LandingBlobPath')}/@{split(items('For_each')['DisplayName'],'_')[1]}",
+                          "name": "@items('For_each')?['DisplayName']",
+                          "queryParametersSingleEncoded": true
+                        },
+                        "retryPolicy": {
+                          "type": "exponential",
+                          "count": 4,
+                          "interval": "PT20S"
+                        }
+                      },
+                      "runAfter": {
+                        "Set_FileSeqNo": [
+                          "Succeeded"
+                        ]
+                      },
+                      "runtimeConfiguration": {
+                        "contentTransfer": {
+                          "transferMode": "Chunked"
+                        }
+                      },
+                      "trackedProperties": {
+                        "Log_Information": "@concat(items('For_each')?['Path'],',Expected Sequence number matched with Current Sequence Number',',',utcNow())",
+                        "WorkFlowName": "@workflow()['name']"
+                      }
+                    },
+                    "DeleteDCPInboxFile": {
+                      "runAfter": {
+                        "NGCTopic": [
+                          "Succeeded"
+                        ]
+                      },
+                      "trackedProperties": {
+                        "Log_Information": "@concat(items('For_each')?['Path'],', Deleting File from DCP inbox folder',',',utcNow())",
+                        "WorkFlowName": "@workflow()['name']"
+                      },
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                          }
+                        },
+                        "method": "delete",
+                        "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Path']))}",
+                        "retryPolicy": {
+                          "count": 4,
+                          "interval": "PT20S",
+                          "type": "exponential"
+                        }
+                      }
+                    },
+                    "ErrorNGCTopic": {
+                      "runAfter": {
+                        "DeleteDCPInboxFile": [
+                          "Failed"
+                        ]
+                      },
+                      "trackedProperties": {
+                        "Log_Error": "@concat(outputs('ErrorNGCTopic'),',Unable to delete file from DCP Inbound')",
+                        "WorkFlowName": "@workflow()['name']"
+                      },
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "body": {
+                          "ContentData": "@{base64(concat(variables('ReceivedFileName'),'/',utcNow(),'/',body('DeleteDCPInboxFile'),'/',workflow()['name']))}"
+                        },
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "path": "[parameters('filedispatchererror_servicebus')]",
+                        "queries": {
+                          "systemProperties": "None"
+                        }
+                      }
+                    },
+                    "File_Status_Table_Update": {
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                          }
+                        },
+                        "method": "put",
+                        "body": {
+                          "RawfileArrivedDateTime": "@items('For_each')?['LastModified']",
+                          "RawfileName": "@items('For_each')?['DisplayName']",
+                          "RawfileProcessedDateTime": "@body('Create_blob')?['LastModified']",
+                          "RawfileStatus": "R",
+                          "RawFileType": "NGC",
+                          "TimeOut": ""
+                        },
+                        "path": "[parameters('FileStatus_Table')]"
+                      },
+                      "runAfter": {
+                        "CheckLessthanSequenceNumber": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Increment_FileSequenceNumber": {
+                      "type": "IncrementVariable",
+                      "inputs": {
+                        "name": "FileSequenceNumber",
+                        "value": 1
+                      },
+                      "runAfter": {
+                        "Create_blob": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "MaxFileThresholdCheck": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "greaterOrEquals": [
+                              "@body('Get_Entity')['SEQUENCE_NO']",
+                              "@sub(body('Get_Entity')['MAX_SEQ_NO'],1)"
+                            ]
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "Max_Limit_Sequence_Number": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azuretables']['connectionId']"
+                              }
+                            },
+                            "method": "put",
+                            "body": {
+                              "DATA_TYPE": "@split(items('For_each')['DisplayName'],'_')[1]",
+                              "MAX_OUT_FILES": "@variables('MaxOutFiles')",
+                              "MAX_SEQ_NO": "@variables('MaxSequenceNumber')",
+                              "OUT_FILES": "@body('Get_Entity')['OUT_FILES']",
+                              "SEQUENCE_NO": "@int(1)"
+                            },
+                            "path": "[parameters('FileSequence_Table')]"
+                          },
+                          "runAfter": {},
+                          "trackedProperties": {
+                            "Log_Warning": "@concat('Sequence Number reached Maximum Sequence number,Resetting Sequnece number to default value',utcNow())",
+                            "WorkFlowName": "@workflow()['name']"
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "OutSequenceBlobCheck": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "NGCTopic": {
+                      "runAfter": {
+                        "File_Status_Table_Update": [
+                          "Succeeded"
+                        ]
+                      },
+                      "trackedProperties": {
+                        "Log_Information": "@concat('Publishing Message to GenericFileValidation topic,',utcNow())",
+                        "WorkFlowName": "@workflow()['name']"
+                      },
+                      "type": "ApiConnection",
+                      "inputs": {
+                        "body": {
+                          "ContentData": "@{base64(concat('{','\n','                \"pipelineName\": \"filedispatcher\",','\n','                \"eventScope\": \"\",','\n','                \"eventPeriod\": \"\",','\n','                \"technicalName\": \"filedispatcher\",','\n','                \"originalChain\": \"filedispater->genericfilevalidation->businessvalidation\",','\n','                \"currentChain\": \"filedispatcher -> genericfilevalidation\",','\n','                \"tracing\": \"',concat(string('filedispatcher'),'~',guid(),'~',utcNow()),'\",','\n','                \"Body\": {','\n','                                \"ItineraryData\": {','\n','                                                \"Items\": \"\"','\n','\n','                                },','\n','                                \"ServiceOutput\": {','\n','                                                \"Items\": [{','\n','                                                                \"ItemId\": \"',body('Create_blob')?['DisplayName'],'\",','\n','                                                                \"ItemType\": \"ExternalInterface\",','\n','                                                                \"ItemLocation\": \"External\",','\n','                                                                \"ItemPath\": \"',body('Create_blob')?['Path'],'\",','\n','                                                                \"SourceLabel\": \"NGC\",','\n','                                                                \"SourceReference\": \"',concat(utcNow(),'-',string('filedispatcher')),'\"','\n','                                                }]','\n','                                }','\n','                }','\n','\n','}','\n'))}"
+                        },
+                        "host": {
+                          "connection": {
+                            "name": "@parameters('$connections')['servicebus']['connectionId']"
+                          }
+                        },
+                        "method": "post",
+                        "path": "[parameters('filedispatcher_servicebus')]",
+                        "queries": {
+                          "systemProperties": "None"
+                        },
+                        "retryPolicy": {
+                          "count": 4,
+                          "interval": "PT20S",
+                          "type": "exponential"
+                        }
+                      }
+                    },
+                    "OutSequenceBlobCheck": {
+                      "type": "If",
+                      "expression": {
+                        "and": [
+                          {
+                            "not": {
+                              "equals": [
+                                "@variables('SequenceNumberOutFiles')",
+                                "@int(0)"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "actions": {
+                        "ForEachOutFile": {
+                          "type": "Foreach",
+                          "foreach": "@body('List_blobs')?['value']",
+                          "actions": {
+                            "GetSequenceEntity": {
+                              "type": "ApiConnection",
+                              "inputs": {
+                                "host": {
+                                  "connection": {
+                                    "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                  }
+                                },
+                                "method": "get",
+                                "path": "[parameters('FileSequence_Table')]"
+                              },
+                              "runAfter": {}
+                            },
+                            "ValidateFileType": {
+                              "type": "If",
+                              "expression": {
+                                "and": [
+                                  {
+                                    "and": [
+                                      {
+                                        "contains": [
+                                          "@items('ForEachOutFile')?['DisplayName']",
+                                          "@variables('FileType')"
+                                        ]
+                                      },
+                                      {
+                                        "equals": [
+                                          "@int(split(split(items('ForEachOutFile')['DisplayName'],'_')[3],'.')[0])",
+                                          "@body('GetSequenceEntity')['SEQUENCE_NO']"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "actions": {
+                                "Copy_blob": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azureblob']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "path": "/datasets/default/copyFile",
+                                    "queries": {
+                                      "source": "@items('ForEachOutFile')?['Path']",
+                                      "destination": "@{variables('LandingBlobPath')}/@{variables('FileType')}/@{items('ForEachOutFile')?['DisplayName']}",
+                                      "overwrite": true,
+                                      "queryParametersSingleEncoded": true
+                                    }
+                                  },
+                                  "runAfter": {},
+                                  "trackedProperties": {
+                                    "Log_Information": "@concat(items('ForEachOutFile')?['DisplayName'],'Sequence Number found in OutOfSequence blob,Moving File to Landing Blob,',utcNow())",
+                                    "WorkFlowName": "@workflow()['name']"
+                                  }
+                                },
+                                "Delete_blob": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azureblob']['connectionId']"
+                                      }
+                                    },
+                                    "method": "delete",
+                                    "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('ForEachOutFile')?['Path']))}"
+                                  },
+                                  "runAfter": {
+                                    "Update_FileSequenceTableToDecrementOutFileCount": [
+                                      "Succeeded"
+                                    ]
+                                  }
+                                },
+                                "PublishOutofsequencetoLandingServiceBusMessage": {
+                                  "runAfter": {
+                                    "Copy_blob": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "body": {
+                                      "ContentData": "@{base64(concat('{','\n','                \"pipelineName\": \"filedispatcher\",','\n','                \"eventScope\": \"\",','\n','                \"eventPeriod\": \"\",','\n','                \"technicalName\": \"filedispatcher\",','\n','                \"originalChain\": \"filedispater->genericfilevalidation->businessvalidation\",','\n','                \"currentChain\": \"filedispatcher -> genericfilevalidation\",','\n','                \"tracing\": \"',concat(string('filedispatcher'),'~',guid(),'~',utcNow()),'\",','\n','                \"Body\": {','\n','                                \"ItineraryData\": {','\n','                                                \"Items\": \"\"','\n','\n','                                },','\n','                                \"ServiceOutput\": {','\n','                                                \"Items\": [{','\n','                                                                \"ItemId\": \"',body('Copy_blob')?['DisplayName'],'\",','\n','                                                                \"ItemType\": \"ExternalInterface\",','\n','                                                                \"ItemLocation\": \"External\",','\n','                                                                \"ItemPath\": \"',body('Copy_blob')?['Path'],'\",','\n','                                                                \"SourceLabel\": \"NGC\",','\n','                                                                \"SourceReference\": \"',concat(utcNow(),'-',string('filedispatcher')),'\"','\n','                                                }]','\n','                                }','\n','                }','\n','\n','}','\n'))}"
+                                    },
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['servicebus']['connectionId']"
+                                      }
+                                    },
+                                    "method": "post",
+                                    "path": "[parameters('filedispatcher_servicebus')]",
+                                    "queries": {
+                                      "systemProperties": "None"
+                                    }
+                                  },
+                                  "trackedProperties": {
+                                    "Log_Information": "@concat('Publishing Message to GenericFileValidation topic',utcNow())",
+                                    "WorkFlowName": "@workflow()['name']"
+                                  }
+                                },
+                                "Update_FileSequenceTableToDecrementOutFileCount": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "patch",
+                                    "body": {
+                                      "DATA_TYPE": "@variables('FileType')",
+                                      "MAX_OUT_FILES": "@variables('MaxOutFiles')",
+                                      "MAX_SEQ_NO": "@variables('MaxSequenceNumber')",
+                                      "OUT_FILES": "@sub(body('GetSequenceEntity')['OUT_FILES'],1)",
+                                      "SEQUENCE_NO": "@add(body('GetSequenceEntity')['SEQUENCE_NO'],1)"
+                                    },
+                                    "path": "[parameters('FileSequence_Table')]"
+                                  },
+                                  "runAfter": {
+                                    "Update_FileStatusTable": [
+                                      "Succeeded"
+                                    ]
+                                  },
+                                  "trackedProperties": {
+                                    "Log_Information": "@concat('Decrementing Out Files column value by 1',utcNow())",
+                                    "WorkFlowName": "@workflow()['name']"
+                                  }
+                                },
+                                "Update_FileStatusTable": {
+                                  "type": "ApiConnection",
+                                  "inputs": {
+                                    "host": {
+                                      "connection": {
+                                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                                      }
+                                    },
+                                    "method": "patch",
+                                    "body": {
+                                      "RawfileArrivedDateTime": "@items('For_each')?['LastModified']",
+                                      "RawfileName": "@items('ForEachOutFile')?['DisplayName']",
+                                      "RawfileProcessedDateTime": "@body('Copy_blob')?['LastModified']",
+                                      "RawfileStatus": "R",
+                                      "RawFileType": "NGC",
+                                      "TimeOut": ""
+                                    },
+                                    "path": "[parameters('FileStatus_Table')]"
+                                  },
+                                  "runAfter": {
+                                    "PublishOutofsequencetoLandingServiceBusMessage": [
+                                      "Succeeded"
+                                    ]
+                                  }
+                                }
+                              },
+                              "runAfter": {
+                                "GetSequenceEntity": [
+                                  "Succeeded"
+                                ]
+                              }
+                            }
+                          },
+                          "runAfter": {
+                            "List_blobs": [
+                              "Succeeded"
+                            ]
+                          },
+                          "runtimeConfiguration": {
+                            "concurrency": {
+                              "repetitions": 1
+                            }
+                          }
+                        },
+                        "List_blobs": {
+                          "type": "ApiConnection",
+                          "inputs": {
+                            "host": {
+                              "connection": {
+                                "name": "@parameters('$connections')['azureblob']['connectionId']"
+                              }
+                            },
+                            "method": "get",
+                            "path": "/datasets/default/foldersV2/@{encodeURIComponent(encodeURIComponent('JTJmcGJyZWx4c3RiZHZuZWRjcG91dG9mc2VxdWVuY2VmaWxl'))}",
+                            "queries": {
+                              "useFlatListing": false
+                            }
+                          },
+                          "runAfter": {},
+                          "metadata": {
+                            "JTJmcGJyZWx4c3RiZHZuZWRjcG91dG9mc2VxdWVuY2VmaWxl": "/elxstbdcpoutofsequencefile",
+                            "JTJmcGJyZWx4c3RidHNuZWRjcG91dG9mc2VxdWVuY2VmaWxl": "/elxstbdcpoutofsequencefile"
+                          }
+                        }
+                      },
+                      "runAfter": {
+                        "DeleteDCPInboxFile": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Set_FileSeqNo": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "FileSequenceNumber",
+                        "value": "@body('Get_Entity')['SEQUENCE_NO']"
+                      },
+                      "runAfter": {
+                        "Set_OutFiles": [
+                          "Succeeded"
+                        ]
+                      }
+                    },
+                    "Set_OutFiles": {
+                      "type": "SetVariable",
+                      "inputs": {
+                        "name": "SequenceNumberOutFiles",
+                        "value": "@body('Get_Entity')['OUT_FILES']"
+                      },
+                      "runAfter": {}
+                    }
+                  },
+                  "runAfter": {
+                    "Set_MaxOutFiles": [
+                      "Succeeded"
+                    ]
+                  },
+                  "else": {
+                    "actions": {
+                      "Create_File_in_OutOfSequenceBlob": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azureblob']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "body": "@body('Get_file_content')",
+                          "path": "/datasets/default/files",
+                          "queries": {
+                            "folderPath": "[parameters('OutofSequence_Blob')]",
+                            "name": "@items('For_each')?['DisplayName']",
+                            "queryParametersSingleEncoded": true
+                          },
+                          "retryPolicy": {
+                            "type": "exponential",
+                            "count": 4,
+                            "interval": "PT20S"
+                          }
+                        },
+                        "runAfter": {},
+                        "runtimeConfiguration": {
+                          "contentTransfer": {
+                            "transferMode": "Chunked"
+                          }
+                        },
+                        "trackedProperties": {
+                          "Log_Warning": "@concat(items('For_each')?['DisplayName'],',Current Sequence number not matched with Expected Sequence number, Moving File to OutOfSequence blob ,',utcNow())",
+                          "WorkFlowName": "@workflow()['name']"
+                        }
+                      },
+                      "DeleteOutofSequenceFile": {
+                        "runAfter": {
+                          "Update_FileSequenceTable": [
+                            "Succeeded"
+                          ]
+                        },
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                            }
+                          },
+                          "method": "delete",
+                          "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['DisplayName']))}",
+                          "retryPolicy": {
+                            "count": 4,
+                            "interval": "PT20S",
+                            "type": "exponential"
+                          }
+                        },
+                        "trackedProperties": {
+                          "Log_Information": "@concat(items('For_each')?['Path'],',File Deleted from DCP inbound,',utcNow())",
+                          "WorkFlowName": "@workflow()['name']"
+                        }
+                      },
+                      "ErrorNGCTopic1": {
+                        "runAfter": {
+                          "DeleteOutofSequenceFile": [
+                            "Failed"
+                          ]
+                        },
+                        "trackedProperties": {
+                          "Log_Error": "@concat('Published message to error topic,',utcNow())",
+                          "WorkFlowName": "@workflow()['name']"
+                        },
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "body": {
+                            "ContentData": "@{base64(concat(variables('ReceivedFileName'),'/',utcNow(),'/',body('DeleteOutofSequenceFile'),'/',workflow()['name']))}"
+                          },
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['servicebus']['connectionId']"
+                            }
+                          },
+                          "method": "post",
+                          "path": "[parameters('filedispatcher_servicebus')]",
+                          "queries": {
+                            "systemProperties": "None"
+                          }
+                        }
+                      },
+                      "File_Status": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azuretables']['connectionId']"
+                            }
+                          },
+                          "method": "put",
+                          "body": {
+                            "RawfileArrivedDateTime": "@items('For_each')?['LastModified']",
+                            "RawfileProcessedDateTime": "@body('Create_File_in_OutOfSequenceBlob')?['LastModified']",
+                            "RawfileName": "@items('For_each')?['DisplayName']",
+                            "RawfileStatus": "O",
+                            "RawFileType": "NGC",
+                            "TimeOut": "@addMinutes(body('Create_File_in_OutOfSequenceBlob')?['LastModified'],15)"
+                          },
+                          "path": "[parameters('FileStatus_Table')]"
+                        },
+                        "runAfter": {
+                          "Create_File_in_OutOfSequenceBlob": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "MaxSequenceNumberCheck": {
+                        "type": "If",
+                        "expression": {
+                          "and": [
+                            {
+                              "greater": [
+                                "@variables('SequenceNumberOutFiles')",
+                                "@variables('MaxOutFiles')"
+                              ]
+                            }
+                          ]
+                        },
+                        "actions": {
+                          "elxlgangcosbvalidation01": {
+                            "type": "Workflow",
+                            "inputs": {
+                              "host": {
+                                "triggerName": "manual",
+                                "workflow": {
+                                  "id": "[parameters('elxlgangcosbvalidation01_workflowId')]"
+                                }
+                              },
+                              "body": "@variables('FileType')"
+                            },
+                            "runAfter": {},
+                            "trackedProperties": {
+                              "Log_Information": "@concat('Exceeded max out files count, invoking elxlgangcosbvalidation01 workflow to Move files to landing blob',utcNow())",
+                              "WorkFlowName": "@workflow()['name']"
+                            }
+                          }
+                        },
+                        "runAfter": {
+                          "DeleteOutofSequenceFile": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "UpdateOutFilesCount": {
+                        "type": "SetVariable",
+                        "inputs": {
+                          "name": "SequenceNumberOutFiles",
+                          "value": "@add(body('Get_Entity')['OUT_FILES'],1)"
+                        },
+                        "runAfter": {
+                          "File_Status": [
+                            "Succeeded"
+                          ]
+                        }
+                      },
+                      "Update_FileSequenceTable": {
+                        "type": "ApiConnection",
+                        "inputs": {
+                          "host": {
+                            "connection": {
+                              "name": "@parameters('$connections')['azuretables']['connectionId']"
+                            }
+                          },
+                          "method": "put",
+                          "body": {
+                            "DATA_TYPE": "@split(items('For_each')['DisplayName'],'_')[1]",
+                            "MAX_OUT_FILES": "@variables('MaxOutFiles')",
+                            "MAX_SEQ_NO": "@variables('MaxSequenceNumber')",
+                            "OUT_FILES": "@add(body('Get_Entity')['OUT_FILES'],1)",
+                            "SEQUENCE_NO": "@body('Get_Entity')['SEQUENCE_NO']"
+                          },
+                          "path": "[parameters('FileSequence_Table')]"
+                        },
+                        "runAfter": {
+                          "UpdateOutFilesCount": [
+                            "Succeeded"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "Get_entity": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "[parameters('FileSequence_Table')]"
+                  },
+                  "runAfter": {
+                    "Set_ReceivedFileName": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Get_file_content": {
+                  "runAfter": {},
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/files/@{encodeURIComponent(encodeURIComponent(items('For_each')?['Path']))}/content",
+                    "queries": {
+                      "inferContentType": false
+                    },
+                    "trackedProperties": {
+                      "Log_Information": "@concat(items('For_each')?['Path'],',File Received,',utcNow())",
+                      "WorkFlowName": "@workflow()['name']"
+                    },
+                    "retryPolicy": {
+                      "count": 4,
+                      "interval": "PT20S",
+                      "type": "exponential"
+                    }
+                  }
+                },
+                "Set_FileSequenceNumber": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "SubstringFilename",
+                    "value": "@int(split(split(items('For_each')['DisplayName'],'_')[3],'.')[0])"
+                  },
+                  "runAfter": {
+                    "Set_tblSeqNumber": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_FileType": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "FileType",
+                    "value": "@{split(items('For_each')['DisplayName'],'_')[1]}"
+                  },
+                  "runAfter": {
+                    "Get_file_content": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_MaxOutFiles": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "MaxOutFiles",
+                    "value": "@body('Get_Entity')['MAX_OUT_FILES']"
+                  },
+                  "runAfter": {
+                    "Set_MaxSeqNumber": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_MaxSeqNumber": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "MaxSequenceNumber",
+                    "value": "@body('Get_Entity')['MAX_SEQ_NO']"
+                  },
+                  "runAfter": {
+                    "Set_FileSequenceNumber": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_ReceivedFileName": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "ReceivedFileName",
+                    "value": "@items('For_each')?['DisplayName']"
+                  },
+                  "runAfter": {
+                    "Set_FileType": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Set_tblSeqNumber": {
+                  "type": "SetVariable",
+                  "inputs": {
+                    "name": "FileSequenceNumber",
+                    "value": "@body('Get_Entity')['SEQUENCE_NO']"
+                  },
+                  "runAfter": {
+                    "Get_entity": [
+                      "Succeeded"
+                    ]
+                  }
+                },
+                "Update_Deleted_File": {
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['azuretables']['connectionId']"
+                      }
+                    },
+                    "method": "patch",
+                    "body": {
+                      "RawfileArrivedDateTime": "@items('For_each')?['LastModified']",
+                      "RawfileName": "@items('For_each')?['DisplayName']",
+                      "RawfileStatus": "Deleted",
+                      "RawFileType": "NGC",
+                      "TimeOut": ""
+                    },
+                    "path": "[parameters('FileStatus_Table')]"
+                  },
+                  "runAfter": {
+                    "Get_entity": [
+                      "Failed"
+                    ]
+                  }
+                },
+                "PublishInvalidFileDetails": {
+                  "inputs": {
+                    "body": {
+                      "ContentData": "@{base64(concat(string('Invalid FileName-'),variables('ReceivedFileName')))}"
+                    },
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['servicebus_1']['connectionId']"
+                      }
+                    },
+                    "method": "post",
+                    "path": "[parameters('filedispatchererror_servicebus')]",
+                    "queries": {
+                      "systemProperties": "None"
+                    }
+                  },
+                  "runAfter": {
+                    "Update_Deleted_File": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "ApiConnection"
+                }
+              },
+              "runAfter": {
+                "Scope": [
+                  "Succeeded"
+                ]
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "repetitions": 1
+                }
+              }
+            },
+            "Initialize_FileName": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "ReceivedFileName",
+                    "type": "String",
+                    "value": "file"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_MaxSequenceNumber": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_FileSeqNumber": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "SubstringFilename",
+                    "type": "Integer",
+                    "value": 0
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_MaxOutFiles": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_FileSequenceNumber": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "FileSequenceNumber",
+                    "type": "Integer",
+                    "value": 0
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_FileType": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_FileType": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "FileType",
+                    "type": "String",
+                    "value": "File"
+                  }
+                ]
+              },
+              "runAfter": {}
+            },
+            "Initialize_MaxOutFiles": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "MaxOutFiles",
+                    "type": "Integer",
+                    "value": 5
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_SequenceNumberOutFiles": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_MaxSequenceNumber": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "MaxSequenceNumber",
+                    "type": "Integer",
+                    "value": 0
+                  }
+                ]
+              },
+              "runAfter": {
+                "LandingBlobPath": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Initialize_SequenceNumberOutFiles": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "SequenceNumberOutFiles",
+                    "type": "Integer",
+                    "value": 0
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_FileSequenceNumber": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "LandingBlobPath": {
+              "type": "InitializeVariable",
+              "inputs": {
+                "variables": [
+                  {
+                    "name": "LandingBlobPath",
+                    "type": "String",
+                    "value": "elxstbdcplandingfile/NGC/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}"
+                  }
+                ]
+              },
+              "runAfter": {
+                "Initialize_FileSeqNumber": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Scope": {
+              "type": "Scope",
+              "actions": {
+                "COMMS Server": {
+                  "runAfter": {
+                    "COMMS_Server_folder": [
+                      "Succeeded"
+                    ]
+                  },
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/folders/@{encodeURIComponent(encodeURIComponent(parameters('DCPInboxFolder')))}",
+                    "retryPolicy": {
+                      "count": 4,
+                      "interval": "PT20S",
+                      "type": "exponential"
+                    }
+                  }
+                },
+                "COMMS_Server_folder": {
+                  "runAfter": {},
+                  "type": "ApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connection": {
+                        "name": "@parameters('$connections')['filesystem_1']['connectionId']"
+                      }
+                    },
+                    "method": "get",
+                    "path": "/datasets/default/folders"
+                  }
+                }
+              },
+              "runAfter": {
+                "Initialize_FileName": [
+                  "Succeeded"
+                ]
+              }
+            },
+            "Send_message_to_error_topic": {
+              "type": "ApiConnection",
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['servicebus_1']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "body": {
+                  "ContentData": "@{base64(concat(string('Unable to access folder'),'/',parameters('DCPInboxFolder'),'/',body('COMMS_Server_folder')))}"
+                },
+                "path": "[parameters('filedispatchererror_servicebus')]",
+                "queries": {
+                  "systemProperties": "None"
+                }
+              },
+              "trackedProperties": {
+                "Log_Error": "@{concat('COMMS Server is not available to access,',utcNow())}",
+                "WorkFlowName": "@workflow()['name']"
+              },
+              "runAfter": {
+                "Scope": [
+                  "Failed"
+                ]
+              }
+            }
+          },
+          "parameters": {
+            "$connections": {
+              "defaultValue": {},
+              "type": "Object"
+            },
+            "DCPInboxFolder": {
+              "defaultValue": "\\\\elx-a-fat-cva.elexbmrs.local\\NE80XSEC_CWK\\party_area\\DCP\\inbox",
+              "type": "String"
+            },
+            "Initialize FileSeqNumber": {
+              "defaultValue": "0",
+              "type": "String"
+            },
+            "InitializeFileSequenceNumber": {
+              "defaultValue": "1",
+              "type": "String"
+            },
+            "InitializeFileType": {
+              "defaultValue": "File",
+              "type": "String"
+            },
+            "InitializeNumberofOutSequenceFiles": {
+              "defaultValue": "5",
+              "type": "String"
+            },
+            "InitializeSequenceNumberOutFiles": {
+              "defaultValue": "0",
+              "type": "String"
+            },
+            "MaxOutFiles": {
+              "defaultValue": "0",
+              "type": "String"
+            }
+          },
+          "triggers": {
+            "Recurrence": {
+              "type": "Recurrence",
+              "recurrence": {
+                "frequency": "Minute",
+                "interval": 3
+              },
+              "runtimeConfiguration": {
+                "concurrency": {
+                  "runs": 1
+                }
+              }
+            }
+          },
+          "contentVersion": "1.0.0.0",
+          "outputs": {}
+        },
+        "parameters": {
+          "$connections": {
+            "value": {
+              "filesystem_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'filesystem')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('filesystem_1_Connection_Name'))]",
+                "connectionName": "[parameters('filesystem_1_Connection_Name')]"
+              },
+              "azuretables": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azuretables')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
+                "connectionName": "[parameters('azuretables_1_Connection_Name')]"
+              },
+              "azureblob": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'azureblob')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
+                "connectionName": "[parameters('azureblob_1_Connection_Name')]"
+              },
+              "servicebus": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+                "connectionName": "[parameters('servicebus_1_Connection_Name')]"
+              },
+              "servicebus_1": {
+                "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]",
+                "connectionId": "[resourceId('Microsoft.Web/connections', parameters('servicebus_2_Connection_Name'))]",
+                "connectionName": "[parameters('servicebus_2_Connection_Name')]"
+              }
+            }
+          }
+        }
+      },
+      "name": "[parameters('LogicAppName')]",
+      "type": "Microsoft.Logic/workflows",
+      "location": "[parameters('LogicAppLocation')]",
+      "tags": {
+        "Group": "DCP",
+        "displayName": "LogicApp"
+      },
+      "apiVersion": "2016-06-01",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/connections', parameters('filesystem_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azuretables_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('azureblob_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_1_Connection_Name'))]",
+        "[resourceId('Microsoft.Web/connections', parameters('servicebus_2_Connection_Name'))]"
+      ]
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('servicebus_1_Connection_Name')]",
+      "location": "northeurope",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'northeurope', '/managedApis/', 'servicebus')]"
+        },
+        "displayName": "[parameters('servicebus_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "connectionString": "[parameters('servicebus_1_connectionString')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azureblob_1_Connection_Name')]",
+      "location": "northeurope",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'northeurope', '/managedApis/', 'azureblob')]"
+        },
+        "displayName": "[parameters('azureblob_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "accountName": "[parameters('azureblob_1_accountName')]",
+          "accessKey": "[parameters('azureblob_1_accessKey')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('azuretables_1_Connection_Name')]",
+      "location": "northeurope",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'northeurope', '/managedApis/', 'azuretables')]"
+        },
+        "displayName": "[parameters('azuretables_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "storageaccount": "[parameters('azuretables_1_storageaccount')]",
+          "sharedkey": "[parameters('azuretables_1_sharedkey')]"
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('filesystem_1_Connection_Name')]",
+      "location": "northeurope",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', 'northeurope', '/managedApis/', 'filesystem')]"
+        },
+        "displayName": "[parameters('filesystem_1_Connection_DisplayName')]",
+        "parameterValues": {
+          "rootfolder": "[parameters('filesystem_1_rootfolder')]",
+          "authType": "[parameters('filesystem_1_authType')]",
+          "username": "[parameters('filesystem_1_username')]",
+          "password": "[parameters('filesystem_1_password')]",
+          "gateway": {
+            "id": "[parameters('filesystem_1_gateway_id')]"
+          }
+        }
+      }
+    },
+    {
+      "type": "MICROSOFT.WEB/CONNECTIONS",
+      "apiVersion": "2016-06-01",
+      "name": "[parameters('servicebus_2_Connection_Name')]",
+      "location": "[parameters('LogicAppLocation')]",
+      "properties": {
+        "api": {
+          "id": "[concat(subscription().id, '/providers/Microsoft.Web/locations/', parameters('LogicAppLocation'), '/managedApis/', 'servicebus')]"
+        },
+        "displayName": "[parameters('servicebus_2_Connection_DisplayName')]",
+        "parameterValues": {
+          "connectionString": "[parameters('servicebus_2_connectionString')]"
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}
