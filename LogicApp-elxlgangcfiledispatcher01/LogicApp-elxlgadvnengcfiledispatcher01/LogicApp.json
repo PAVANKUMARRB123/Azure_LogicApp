@@ -2,127 +2,7 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "elxlgangcosbvalidation01_workflowId": {
-      "type": "string",
-      "defaultValue": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvlga01/providers/Microsoft.Logic/workflows/elxlgangcosbvalidation01"
-    },
-    "servicebus_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus"
-    },
-    "servicebus_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "elxlgcnonngcfiledispatcherservicebus"
-    },
-    "servicebus_1_connectionString": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure Service Bus Connection String"
-      }
-    },
-    "azureblob_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azureblob-2"
-    },
-    "azureblob_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "elxlgcelxstadvnelrsh02"
-    },
-    "azureblob_1_accountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the storage account the connector should use."
-      },
-      "defaultValue": "elxstadvnelrsh02"
-    },
-    "azureblob_1_accessKey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Specify a valid primary/secondary storage account access key."
-      }
-    },
-    "azuretables_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "azuretables"
-    },
-    "azuretables_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "elxstadvnelrsh02"
-    },
-    "azuretables_1_storageaccount": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of your storage account"
-      },
-      "defaultValue": "elxstadvnelrsh02"
-    },
-    "azuretables_1_sharedkey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The shared storage key of your storage account"
-      }
-    },
-    "filesystem_1_Connection_Name": {
-      "type": "string",
-      "defaultValue": "filesystem-1"
-    },
-    "filesystem_1_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "elxlocalmachineconnection"
-    },
-    "filesystem_1_rootfolder": {
-      "type": "string",
-      "metadata": {
-        "description": "Root folder path (examples: \\\\MACHINE\\myShare or C:\\myShare)"
-      },
-      "defaultValue": "\\\\elx-a-fat-cva\\NE80XSEC_CWK\\party_area\\DCP\\inbox"
-    },
-    "filesystem_1_authType": {
-      "type": "string",
-      "metadata": {
-        "description": "Authentication type to connect to your gateway computer"
-      },
-      "defaultValue": "windows",
-      "allowedValues": [
-        "windows"
-      ]
-    },
-    "filesystem_1_username": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Username credential (e.g. DOMAIN\\Username)"
-      }
-    },
-    "filesystem_1_password": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Password credential"
-      }
-    },
-    "filesystem_1_gateway_id": {
-      "type": "string",
-      "defaultValue": "/subscriptions/d09f8f5f-9c06-4042-a2ef-77aed3e2a6bf/resourceGroups/elxrgpdvsbx10/providers/Microsoft.Web/connectionGateways/elxtestfdplocalmachine"
-    },
-    "FileSequence_Table": {
-      "type": "string",
-      "defaultValue": "/Tables/@{encodeURIComponent('elxsttincomingsequence')}/entities(PartitionKey='@{encodeURIComponent('filedispatcher')}',RowKey='@{encodeURIComponent(variables('FileType'))}')"
-    },
-    "FileStatus_Table": {
-      "type": "string",
-      "defaultValue": "/Tables/@{encodeURIComponent('elxsttnonngcincomingfilestatus')}/entities(PartitionKey='@{encodeURIComponent('filedispatcher')}',RowKey='@{encodeURIComponent(items('For_each')?['DisplayName'])}')"
-    },
-    "OutofSequence_Blob": {
-      "type": "string",
-      "defaultValue": "/elxstbdcpoutofsequencefile"
-    },
-    "filedispatcher_servicebus": {
-      "type": "string",
-      "defaultValue": "/@{encodeURIComponent(encodeURIComponent('elxasbtpfiledispatcher'))}/messages"
-    },
-    "filedispatchererror_servicebus": {
-      "type": "string",
-      "defaultValue": "/@{encodeURIComponent(encodeURIComponent('elxasbtpfiledispatcher_error'))}/messages"
-    },
+
     "LogicAppLocation": {
       "type": "string",
       "minLength": 1,
@@ -160,20 +40,7 @@
       "minLength": 1,
       "defaultValue": "elxlgangcfiledispatcher01"
     },
-    "servicebus_2_Connection_Name": {
-      "type": "string",
-      "defaultValue": "servicebus-3"
-    },
-    "servicebus_2_Connection_DisplayName": {
-      "type": "string",
-      "defaultValue": "elxasbdvnemsg01"
-    },
-    "servicebus_2_connectionString": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Azure Service Bus Connection String"
-      }
-    }
+ 
   },
   "variables": {},
   "resources": [
