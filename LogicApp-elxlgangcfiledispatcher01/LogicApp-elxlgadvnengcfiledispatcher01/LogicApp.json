@@ -28,7 +28,6 @@
         "westindia",
         "canadacentral",
         "canadaeast",
-        "uksouth",
         "westcentralus"
       ],
       "defaultValue": "northeurope"
