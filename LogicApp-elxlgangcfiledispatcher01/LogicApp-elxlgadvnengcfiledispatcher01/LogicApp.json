@@ -29,7 +29,6 @@
         "canadacentral",
         "canadaeast",
         "uksouth",
-        "ukwest",
         "westcentralus"
       ],
       "defaultValue": "northeurope"
